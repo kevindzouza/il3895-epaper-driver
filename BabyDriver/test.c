@@ -1,14 +1,18 @@
 #include "bitmap.h"
 #include "babydriver.h"
+#include "fonts.h"
 #include <stdio.h>
 
 int main(void)
 {
-    Print_Frame_Buffer(0, 0, TEST_IMAGE_WIDTH, TEST_IMAGE_HEIGHT, test_image);
+    //Print_Frame_Buffer(10, 10, TEST_IMAGE_WIDTH, TEST_IMAGE_HEIGHT, test_image);
 
-    for(int y = 0; y < TEST_IMAGE_HEIGHT; y++)
+    draw_text(10, 10, 16, "Hello, World!");
+
+
+    for(int y = 0; y < 100; y++)
     {
-        for(int x = 0; x < TEST_IMAGE_WIDTH; x++)
+        for(int x = 0; x < 100; x++)
         {
             if (gt_bit_val(x, y))
             {

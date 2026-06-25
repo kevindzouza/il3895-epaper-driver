@@ -13,5 +13,7 @@
 void bit_set_reset( int x , int y, bool state);
 void Print_Frame_Buffer(int x, int y, int width, int height, const uint8_t *frame_buffer);
 bool gt_bit_val(int x, int y);
+void draw_text (int x , int y , int size , char *text);
+
 
 #endif

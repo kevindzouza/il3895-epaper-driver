@@ -2,6 +2,8 @@
 #include <stdbool.h>
 #include "bitmap.h"
 #include <stdint.h>
+#include "fonts.h"
+#include <string.h>
 
 
 int FRAME_BUFFER[FRAME_TOTAL] = {0};
@@ -56,7 +58,45 @@ void Print_Frame_Buffer(int x, int y, int width, int height, const uint8_t *fram
             {
                 return;
             }
+
+            if (y >= FRAME_HEIGHT || x >= FRAME_WIDTH)
+            {
+                return;
+            }
         }
+    }
+
+}
+
+void draw_text (int x , int y , int size , char *text)
+{
+    const uint8_t *font = FONT;
+    const uint8_t *drawChar ;
+
+    int runningX = x;
+    int runningY = y;
+
+    int target;
+
+    for( int i =0;  i < strlen(text); i++)
+    {
+        if (runningX >= FRAME_WIDTH)
+        {
+            runningX = x;
+            runningY += size;
+        }
+
+        if (runningY >= FRAME_HEIGHT)
+        {
+            return;
+        }
+
+        target = (size * size ) * (text[i] - 32);
+        drawChar = font + target;
+
+        Print_Frame_Buffer(runningX, runningY, size, size, drawChar);
+
+        runningX += size;
     }
 
 }
