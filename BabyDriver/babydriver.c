@@ -71,15 +71,17 @@ void Print_Frame_Buffer(int x, int y, int width, int height, const uint8_t *fram
 void draw_text (int x , int y , int size , char *text)
 {
     const uint8_t *font = FONT;
-    const uint8_t *drawChar ;
+    const uint8_t *drawChar;
 
     int runningX = x;
     int runningY = y;
+    int glyph_bytes = (size * size) / 8;
 
-    int target;
-
-    for( int i =0;  i < strlen(text); i++)
+    for (int i = 0; text[i] != '\0'; i++)
     {
+        unsigned char ch = (unsigned char)text[i];
+        int target;
+
         if (runningX >= FRAME_WIDTH)
         {
             runningX = x;
@@ -91,12 +93,16 @@ void draw_text (int x , int y , int size , char *text)
             return;
         }
 
-        target = (size * size ) * (text[i] - 32);
+        if (ch < 32 || ch > 126)
+        {
+            ch = '?';
+        }
+
+        target = glyph_bytes * (ch - 32);
         drawChar = font + target;
 
         Print_Frame_Buffer(runningX, runningY, size, size, drawChar);
 
         runningX += size;
     }
-
 }
